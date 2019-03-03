@@ -1,15 +1,32 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
+import {connect} from 'react-redux';
+import {Card, CardSection, Button, Input, Spinner} from './common';
+import {logoutUser} from '../actions';
+
+
 
 class Welcome extends Component{
 
+    onButtonPress(){
+        this.props.logoutUser();
+    }
+
     render(){
         return(
-            <View style={styles.container}>
-                <Text style={styles.textStyle}>
-                    Welcome!
-                </Text>
-            </View>
+           
+                <Card>
+                    <Text style={styles.textStyle}>
+                        Welcome!
+                    </Text>
+                    <CardSection>
+                        <Button onPress={this.onButtonPress.bind(this)}>  
+                            Logout
+                        </Button>    
+                    </CardSection>
+                                      
+                </Card>
+
         );
     }
 }
@@ -27,4 +44,4 @@ const styles={
     }
 }
 
-export default Welcome;
+export default connect(null, {logoutUser})(Welcome);

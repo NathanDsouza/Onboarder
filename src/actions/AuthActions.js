@@ -9,6 +9,7 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER,
+    LOGOUT_USER,
 } from './types'
 
 export const emailChanged = (text) =>{
@@ -66,3 +67,21 @@ const loginUserFail = (dispatch, error) => {
     });
 };
 
+export const logoutUser = () =>{
+
+    return (dispatch) => {
+        firebase.auth().signOut()
+        .then(user => logoutUserSuccess(dispatch, user))
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+};
+
+const logoutUserSuccess = (dispatch, user) => {
+    dispatch({
+        type: LOGOUT_USER,
+        payload: user
+    });
+    NavigationService.navigate('Home')
+};
