@@ -6,7 +6,9 @@ import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import Home from './components/Home';
 import EmailLogin from './components/EmailLogin';
+import Welcome from './components/Welcome';
 import NavigationService from './actions/NavigationService'
+import Profile from './components/Profile'
 
 
 
@@ -18,9 +20,15 @@ const RootStack = createStackNavigator(
     EmailLogin: {
       screen: EmailLogin,
     },
+    Welcome: {
+      screen: Welcome,
+    },
+    Profile: {
+      screen: Profile,
+    },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Profile',
   }
 );
 

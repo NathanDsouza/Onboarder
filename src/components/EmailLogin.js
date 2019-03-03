@@ -7,6 +7,10 @@ import {emailChanged, passwordChanged, loginUser} from '../actions';
 
 class EmailLogin extends Component{
 
+    static navigationOptions = {
+        title: 'Sign in!',
+      };
+
     onEmailChange(text){
         this.props.emailChanged(text);
     }

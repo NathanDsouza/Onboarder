@@ -1,5 +1,6 @@
 import firebase from '@firebase/app';
 import '@firebase/auth'
+import NavigationService from '../actions/NavigationService';
 
 
 import {
@@ -47,6 +48,7 @@ const loginUserSuccess = (dispatch, user) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     });
+    NavigationService.navigate('Welcome');
 };
 
 const loginUserFail = (dispatch, error) => {

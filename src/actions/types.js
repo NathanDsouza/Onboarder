@@ -3,7 +3,10 @@ export const PASSWORD_CHANGED = 'password_changed';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
-export const EMPLOYEE_UPDATE = 'employee_update';
-export const EMPLOYEE_CREATE = 'employee_create';
-export const EMPLOYEE_FETCH_SUCCESS = 'employee_fetch_success';
+export const FIRST_NAME_CHANGED = 'first_name_changed';
+export const LAST_NAME_CHANGED = 'last_name_changed';
+export const USERNAME_CHANGED = 'username_changed';
+export const PROFILE_CREATE_SUCCESS = 'profile_create_success';
+export const PROFILE_CREATE_FAIL = 'profile_create_fail';
+export const PROFILE_CREATE = 'profile_create';
 

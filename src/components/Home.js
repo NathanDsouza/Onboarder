@@ -8,13 +8,16 @@ class Home extends Component{
         firebaseSetup;
     }
 
+    static navigationOptions = {
+        title: 'Welcome to the Onboarder!',
+      };
+
     onButtonPress(){
         NavigationService.navigate('EmailLogin');
     }
     render(){
         return(
             <Card>        
-                <Header headerText= "Welcome To The Onboarder!"/>
                 <CardSection>
                     <Button onPress={this.onButtonPress.bind(this)}>
                     Email
