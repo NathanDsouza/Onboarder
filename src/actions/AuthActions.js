@@ -48,7 +48,7 @@ const loginUserSuccess = (dispatch, user) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     });
-    NavigationService.navigate('Welcome');
+    NavigationService.navigate('Profile');
 };
 
 const loginUserFail = (dispatch, error) => {

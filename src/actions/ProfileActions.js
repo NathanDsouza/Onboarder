@@ -1,5 +1,6 @@
 import firebase from '@firebase/app';
-import '@firebase/auth'
+import  '@firebase/database';
+import  '@firebase/auth';
 import NavigationService from './NavigationService';
 
 
@@ -33,9 +34,18 @@ export const usernameChanged = (text) =>{
     };
 };
 
-export const profileCreate = ({first, last, username}) =>{
+export const profileCreate = ({firstName, lastName, username}) =>{
+    const {currentUser} = firebase.auth();
+
     return (dispatch) => {
-        dispatch({type: PROFILE_CREATE});
+        firebase.database().ref(`/users/${currentUser.uid}`)
+            .push({firstName, lastName, username})
+            .then(() => {
+                dispatch({type: PROFILE_CREATE});
+                NavigationService.navigate('Welcome');
+            });
+    };
+      
 };
 
 const profileCreateSuccess = (dispatch, user) => {
@@ -51,5 +61,5 @@ const profileCreateFail = (dispatch, error) => {
         type: PROFILE_CREATE_FAIL,
         payload: error.toString()
     });
-};}
+};
 

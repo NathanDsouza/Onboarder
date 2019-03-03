@@ -1,12 +1,12 @@
 import firebase from '@firebase/app';
 
 const config = {
-    apiKey: "AIzaSyADjyrB_qd91t4Tf1p4o8oHhRa3DpjTWns",
-    authDomain: "onboarder-66903.firebaseapp.com",
-    databaseURL: "https://onboarder-66903.firebaseio.com",
-    projectId: "onboarder-66903",
-    storageBucket: "onboarder-66903.appspot.com",
-    messagingSenderId: "671225463680"
+    apiKey: "AIzaSyCl2COl6abX3YRLVR6oYL5eDsiu_yh-UFs",
+    authDomain: "onboarder-a3f6b.firebaseapp.com",
+    databaseURL: "https://onboarder-a3f6b.firebaseio.com",
+    projectId: "onboarder-a3f6b",
+    storageBucket: "onboarder-a3f6b.appspot.com",
+    messagingSenderId: "948598914932"
 };
 const firebaseSetup = firebase.initializeApp(config);
 export default firebaseSetup;
