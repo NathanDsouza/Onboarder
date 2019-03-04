@@ -14,7 +14,7 @@ const INITIAL_STATE = {
     user: null,
     error: '',
     loading: false,
-    loggedIn: false;
+    loggedIn: false,
 };
 
 export default (state = INITIAL_STATE, action) => {

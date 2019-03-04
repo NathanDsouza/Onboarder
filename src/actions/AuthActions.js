@@ -6,6 +6,7 @@ import NavigationService from '../actions/NavigationService';
 import {
     EMAIL_CHANGED,
     PASSWORD_CHANGED,
+    NEW_USER_SUCCESS,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER,
@@ -49,7 +50,7 @@ const loginUserSuccess = (dispatch, user) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     });
-    NavigationService.navigate('Welcome');
+    NavigationService.resetNavigation('Welcome');
 };
 
 const newUserSuccess = (dispatch, user) => {
@@ -57,7 +58,7 @@ const newUserSuccess = (dispatch, user) => {
         type: NEW_USER_SUCCESS,
         payload: user
     });
-    NavigationService.navigate('Profile');
+    NavigationService.resetNavigation('Profile');
 };
 
 const loginUserFail = (dispatch, error) => {
@@ -83,5 +84,5 @@ const logoutUserSuccess = (dispatch, user) => {
         type: LOGOUT_USER,
         payload: user
     });
-    NavigationService.navigate('Home')
+    NavigationService.resetNavigation('Home');
 };

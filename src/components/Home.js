@@ -17,7 +17,10 @@ class Home extends Component{
     }
     render(){
         return(
-            <Card>        
+            <Card>    
+                
+                    <Header headerText="Log in!"/>
+          
                 <CardSection>
                     <Button onPress={this.onButtonPress.bind(this)}>
                     Email

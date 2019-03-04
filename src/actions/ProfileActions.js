@@ -42,7 +42,7 @@ export const profileCreate = ({firstName, lastName, username}) =>{
             .push({firstName, lastName, username})
             .then(() => {
                 dispatch({type: PROFILE_CREATE});
-                NavigationService.navigate('Welcome');
+                NavigationService.resetNavigation('Welcome');
             });
     };
       

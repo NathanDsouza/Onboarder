@@ -9,6 +9,7 @@ import EmailLogin from './components/EmailLogin';
 import Welcome from './components/Welcome';
 import NavigationService from './actions/NavigationService'
 import Profile from './components/Profile'
+import Loading from './components/Loading'
 
 
 
@@ -26,9 +27,12 @@ const RootStack = createStackNavigator(
     Profile: {
       screen: Profile,
     },
+    Loading: {
+      screen: Loading,
+    },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Loading',
   }
 );
 
