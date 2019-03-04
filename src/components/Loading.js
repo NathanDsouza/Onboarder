@@ -7,7 +7,7 @@ import NavigationService from '../actions/NavigationService';
 
 
 class Loading extends Component{
-    componentWillMount(){
+    componentDidMount(){
         console.log("here")
         this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {

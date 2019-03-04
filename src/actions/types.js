@@ -11,4 +11,6 @@ export const USERNAME_CHANGED = 'username_changed';
 export const PROFILE_CREATE_SUCCESS = 'profile_create_success';
 export const PROFILE_CREATE_FAIL = 'profile_create_fail';
 export const PROFILE_CREATE = 'profile_create';
+export const USERNAME_AVAILABLE = 'username_available';
+export const USERNAME_TAKEN = 'username_taken';
 

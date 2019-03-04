@@ -11,6 +11,8 @@ import {
     PROFILE_CREATE_SUCCESS,
     PROFILE_CREATE_FAIL,
     PROFILE_CREATE,
+    USERNAME_AVAILABLE,
+    USERNAME_TAKEN
 } from './types'
 
 export const firstNameChanged = (text) =>{
@@ -38,6 +40,14 @@ export const profileCreate = ({firstName, lastName, username}) =>{
     const {currentUser} = firebase.auth();
 
     return (dispatch) => {
+        firebase.database().ref(`/usernames`)
+        .push({username})
+        .then(() => {
+            dispatch({type: USERNAME_AVAILABLE});})
+        .catch((error) => {
+            console.log(error);
+            dispatch({type: USERNAME_TAKEN, payload: error.toString()});})
+
         firebase.database().ref(`/users/${currentUser.uid}`)
             .push({firstName, lastName, username})
             .then(() => {
