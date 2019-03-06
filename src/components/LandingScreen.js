@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-import firebaseSetup from '../firebase';
 import {Card, CardSection, Input, Button, Header} from './common'
 import NavigationService from '../actions/NavigationService';
 
-class Home extends Component{
-    componentWillMount(){
-        firebaseSetup;
-    }
+class LandingScreen extends Component{
+    
 
     static navigationOptions = {
         title: 'Welcome to the Onboarder!',
@@ -36,4 +33,4 @@ class Home extends Component{
     }
 }
 
-export default Home;
+export default LandingScreen;

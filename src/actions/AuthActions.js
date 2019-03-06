@@ -1,4 +1,5 @@
 import firebase from '@firebase/app';
+import  '@firebase/database';
 import '@firebase/auth'
 import NavigationService from '../actions/NavigationService';
 
@@ -28,6 +29,8 @@ export const passwordChanged = (text) =>{
 };
 
 export const loginUser = ({email, password}) =>{
+   
+
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
 
@@ -36,7 +39,13 @@ export const loginUser = ({email, password}) =>{
             .catch((error)=>{
                 console.log(error);
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(user => newUserSuccess(dispatch, user))
+                .then(user => {
+                    const {currentUser} = firebase.auth();
+                    firebase.database().ref(`/users/${currentUser.uid}`)
+                    .set({email})
+                    .then(() => {
+                        newUserSuccess(dispatch, user);
+                    })})
                 .catch((error) =>{
                     console.log(error);
                     loginUserFail (dispatch, error);
@@ -84,5 +93,5 @@ const logoutUserSuccess = (dispatch, user) => {
         type: LOGOUT_USER,
         payload: user
     });
-    NavigationService.resetNavigation('Home');
+    NavigationService.resetNavigation('LandingScreen');
 };

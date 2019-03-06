@@ -4,19 +4,21 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 import {createStore, applyMiddleware} from 'redux';
 import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
-import Home from './components/Home';
+import LandingScreen from './components/LandingScreen';
 import EmailLogin from './components/EmailLogin';
 import Welcome from './components/Welcome';
+import AddFriends from './components/AddFriends';
 import NavigationService from './actions/NavigationService'
 import Profile from './components/Profile'
 import Loading from './components/Loading'
+import firebaseSetup from './firebase';
 
 
 
 const RootStack = createStackNavigator(
   {
-    Home: {
-      screen: Home,
+    LandingScreen: {
+      screen: LandingScreen,
     },
     EmailLogin: {
       screen: EmailLogin,
@@ -30,6 +32,9 @@ const RootStack = createStackNavigator(
     Loading: {
       screen: Loading,
     },
+    AddFriends: {
+      screen: AddFriends,
+    },
   },
   {
     initialRouteName: 'Loading',
@@ -39,6 +44,9 @@ const RootStack = createStackNavigator(
 const AppContainer = createAppContainer(RootStack);
 
 export default class App extends React.Component {
+  componentWillMount(){
+    firebaseSetup;//?
+  }
   render() {
     const store=(createStore(reducers, {}, applyMiddleware(ReduxThunk)));
     return(

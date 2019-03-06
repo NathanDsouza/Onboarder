@@ -15,7 +15,7 @@ class Loading extends Component{
                 NavigationService.resetNavigation('Welcome');
             } else {
                 console.log('user not logged')
-                NavigationService.resetNavigation('Home');
+                NavigationService.resetNavigation('LandingScreen');
             }
          });
     }
