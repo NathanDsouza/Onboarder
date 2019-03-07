@@ -1,21 +1,26 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import {Card, CardSection, Input, Spinner, Header} from './common'
+import {View, Text, Image} from 'react-native';
+import {Card, CardSection, Input, Spinner, Button} from './common'
 import firebase from '@firebase/app';
 import '@firebase/auth'
 import NavigationService from '../actions/NavigationService';
 
 
 class Loading extends Component{
+    constructor(props) {
+        super(props);
+        this.state = { screen: 'LandingScreen' };
+    }
+
     componentDidMount(){
         console.log("here")
         this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 console.log('user logged')
-                NavigationService.resetNavigation('Welcome');
+                this.state.screen = 'Welcome';
             } else {
                 console.log('user not logged')
-                NavigationService.resetNavigation('LandingScreen');
+                this.state.screen = 'LandingScreen';
             }
          });
     }
@@ -23,13 +28,23 @@ class Loading extends Component{
     componentWillUnmount(){
         this.unsubscribe();
     }
+
+    _onButtonPress(){
+        NavigationService.resetNavigation(this.state.screen); 
+    }
+
+    static navigationOptions = {
+        title: 'Poker Pals',
+        headerTitleStyle: {textAlign:"center", flex:1 },
+      };
     render(){
         return(
             <View style={styles.container}>
-                <Text style={styles.textStyle}>
-                    Onboarder App
-                </Text> 
-                <Spinner size={100}/>
+                 
+                <Image source={require('../images/logo.png')} />
+                <Button onPress={this._onButtonPress.bind(this)}>  
+                    Begin
+                </Button>    
             </View>
             
         )

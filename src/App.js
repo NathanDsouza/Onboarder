@@ -38,8 +38,12 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Loading',
+    cardStyle: {
+      backgroundColor: "#9FAF90",
+    }
   }
 );
+//https://coolors.co/258ea6-549f93-9faf90-e2b1b1-e2c2ff
 
 const AppContainer = createAppContainer(RootStack);
 
