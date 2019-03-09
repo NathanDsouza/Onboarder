@@ -98,5 +98,5 @@ const logoutUserSuccess = (dispatch, user) => {
         type: LOGOUT_USER,
         payload: user
     });
-    NavigationService.resetNavigation('LandingScreen');
+    NavigationService.resetNavigation('AuthSelection');
 };

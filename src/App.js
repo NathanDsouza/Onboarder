@@ -4,21 +4,21 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 import {createStore, applyMiddleware} from 'redux';
 import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
-import LandingScreen from './components/LandingScreen';
+import AuthSelection from './components/AuthSelection';
 import EmailLogin from './components/EmailLogin';
 import Welcome from './components/Welcome';
 import AddFriends from './components/AddFriends';
 import NavigationService from './actions/NavigationService'
 import Profile from './components/Profile'
-import Loading from './components/Loading'
+import LandingScreen from './components/LandingScreen'
 import firebaseSetup from './firebase';
 
 
 
 const RootStack = createStackNavigator(
   {
-    LandingScreen: {
-      screen: LandingScreen,
+    AuthSelection: {
+      screen: AuthSelection,
     },
     EmailLogin: {
       screen: EmailLogin,
@@ -29,15 +29,15 @@ const RootStack = createStackNavigator(
     Profile: {
       screen: Profile,
     },
-    Loading: {
-      screen: Loading,
+    LandingScreen: {
+      screen: LandingScreen,
     },
     AddFriends: {
       screen: AddFriends,
     },
   },
   {
-    initialRouteName: 'Loading',
+    initialRouteName: 'LandingScreen',
     cardStyle: {
       backgroundColor: "#9FAF90",
     }

@@ -34,6 +34,16 @@ class Welcome extends Component{
                         </Button>    
                     </CardSection>
                     <CardSection>
+                        <Button onPress={this.addFriendsButtonPress.bind(this)}>  
+                            Create Game
+                        </Button>    
+                    </CardSection>
+                    <CardSection>
+                        <Button onPress={this.addFriendsButtonPress.bind(this)}>  
+                            Join Game
+                        </Button>    
+                    </CardSection>
+                    <CardSection>
                         <Button onPress={this.logoutButtonPress.bind(this)}>  
                             Logout
                         </Button>    

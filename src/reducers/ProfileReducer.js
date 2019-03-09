@@ -6,6 +6,7 @@ import {
     PROFILE_CREATE_FAIL,
     PROFILE_CREATE,
     USERNAME_AVAILABLE,
+    USERNAME_SET,
     USERNAME_TAKEN
 } from '../actions/types'
 
@@ -30,7 +31,11 @@ export default (state = INITIAL_STATE, action) => {
         case USERNAME_CHANGED:
             return{...state, username: action.payload, error: ""};
         case PROFILE_CREATE:
+            return{...state};
+        case PROFILE_CREATE_SUCCESS:
             return{...state,...INITIAL_STATE};
+        case USERNAME_SET:
+            return{...state};
         case USERNAME_AVAILABLE:
             return{...state};
         case USERNAME_TAKEN:
