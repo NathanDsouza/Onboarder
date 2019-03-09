@@ -16,32 +16,27 @@ import {
     USERNAME_TAKEN
 } from './types'
 
-async function checkIfUsernameAvailable(username){
+function checkIfUsernameAvailable(username){
     const usernameLower = username.toLowerCase()
     const usernamePath = `/usernames/${usernameLower}`
     const ref = firebase.database().ref(usernamePath)
-    console.log("ref", ref)
-    const snapshot = await ref.once('value').then(snapshot => {
-        return snapshot.val();
+    const snapshot = ref.once('value').then(snapshot => {
+        return snapshot.exists();
     })
-    console.log("snapshot", snapshot)
-    // const taken = await firebase.database().ref(`/usernames`)
-    // .equalTo(usernameLower)
    
-    // console.log(taken)
-    return false
+    return snapshot
 }
 
 
 
 
-function addProfile(dispatch, firstName, lastName, username){
-    
+async function addProfile(dispatch, firstName, lastName, username){
+        
+        const {currentUser} = firebase.auth();
         dispatch({type: PROFILE_CREATE});
-        const taken =  checkIfUsernameAvailable(username);
-        console.log('hey ', taken)
+        const taken =  await checkIfUsernameAvailable(username);
         if (!taken){
-            firebase.database().ref(`/usernames`)
+            firebase.database().ref(`/usernames/${username}/${currentUser.uid}`)
                     .update({username})
                     .then(() => {
                         dispatch({type: USERNAME_SET});})
@@ -53,7 +48,7 @@ function addProfile(dispatch, firstName, lastName, username){
             return
         }
 
-        const {currentUser} = firebase.auth();
+       
         firebase.database().ref(`/users/${currentUser.uid}`)
         .update({firstName, lastName, username})
         .then(() => {
