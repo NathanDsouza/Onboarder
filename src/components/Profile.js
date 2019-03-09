@@ -25,7 +25,7 @@ class Profile extends Component{
     onButtonPress(){
         const {firstName, lastName, username} = this.props;
 
-        this.props.profileCreate({firstName, lastName, username});
+        this.props.profileCreate(firstName, lastName, username);
     }
 
     renderButton(){

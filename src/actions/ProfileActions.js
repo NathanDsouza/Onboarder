@@ -2,6 +2,7 @@ import firebase from '@firebase/app';
 import  '@firebase/database';
 import  '@firebase/auth';
 import NavigationService from './NavigationService';
+import FirebaseService from './FirebaseService';
 
 
 import {
@@ -36,26 +37,10 @@ export const usernameChanged = (text) =>{
     };
 };
 
-export const profileCreate = ({firstName, lastName, username}) =>{
-    const {currentUser} = firebase.auth();
-
+export const profileCreate = (firstName, lastName, username) =>{
     return (dispatch) => {
-        firebase.database().ref(`/usernames`)
-        // .set({username})
-        // .then(() => {
-        //     dispatch({type: USERNAME_AVAILABLE});})
-        // .catch((error) => {
-        //     console.log(error);
-        //     dispatch({type: USERNAME_TAKEN, payload: error.toString()});})
-
-        firebase.database().ref(`/users/${currentUser.uid}`)
-            .set({firstName, lastName, username})
-            .then(() => {
-                dispatch({type: PROFILE_CREATE});
-                NavigationService.resetNavigation('Welcome');
-            });
-    };
-      
+    FirebaseService.addProfile(dispatch, firstName, lastName, username)  
+    }
 };
 
 const profileCreateSuccess = (dispatch, user) => {

@@ -12,5 +12,7 @@ export const PROFILE_CREATE_SUCCESS = 'profile_create_success';
 export const PROFILE_CREATE_FAIL = 'profile_create_fail';
 export const PROFILE_CREATE = 'profile_create';
 export const USERNAME_AVAILABLE = 'username_available';
+export const USERNAME_SET = 'username_set';
 export const USERNAME_TAKEN = 'username_taken';
+export const ADD_FRIEND = 'add_friend';
 

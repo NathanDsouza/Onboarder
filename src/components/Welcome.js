@@ -3,13 +3,19 @@ import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {Card, CardSection, Button, Input, Spinner} from './common';
 import {logoutUser} from '../actions';
+import NavigationService from '../actions/NavigationService';
+
 
 
 
 class Welcome extends Component{
 
-    onButtonPress(){
+    logoutButtonPress(){
         this.props.logoutUser();
+    }
+
+    addFriendsButtonPress(){
+        NavigationService.navigate('AddFriends');
     }
 
     render(){
@@ -17,10 +23,18 @@ class Welcome extends Component{
            
                 <Card>
                     <Text style={styles.textStyle}>
-                        Welcome!
+                        Welcome 
                     </Text>
+                    {/* <Text style={styles.textStyle}>
+                        {this.state.username}
+                    </Text> */}
                     <CardSection>
-                        <Button onPress={this.onButtonPress.bind(this)}>  
+                        <Button onPress={this.addFriendsButtonPress.bind(this)}>  
+                            Add Friends
+                        </Button>    
+                    </CardSection>
+                    <CardSection>
+                        <Button onPress={this.logoutButtonPress.bind(this)}>  
                             Logout
                         </Button>    
                     </CardSection>
@@ -43,5 +57,11 @@ const styles={
         fontSize: 50,
     }
 }
+
+const mapStateToProps = ({profile}) => {
+    // const {username} = profile;
+
+    // return{username};
+};
 
 export default connect(null, {logoutUser})(Welcome);

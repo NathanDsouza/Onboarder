@@ -7,7 +7,6 @@ function setTopLevelNavigator(navigatorRef) {
 }
 
 function navigate(routeName, params) {
-  console.log("navigate " + routeName);
   _navigator.dispatch(
     NavigationActions.navigate({
       routeName,
@@ -17,7 +16,6 @@ function navigate(routeName, params) {
 }
 
 function resetNavigation(targetRoute) {
-  console.log(targetRoute)
   const resetAction = StackActions.reset({
     index: 0, 
     key: null,

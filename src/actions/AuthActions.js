@@ -45,7 +45,12 @@ export const loginUser = ({email, password}) =>{
                     .set({email})
                     .then(() => {
                         newUserSuccess(dispatch, user);
-                    })})
+                    })
+                    .catch((error) =>{
+                        console.log(error);
+                        loginUserFail (dispatch, error);
+                    })
+                })
                 .catch((error) =>{
                     console.log(error);
                     loginUserFail (dispatch, error);
