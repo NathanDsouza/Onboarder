@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
+import SplashScreen from 'react-native-splash-screen';
 import {createStore, applyMiddleware} from 'redux';
 import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
@@ -51,6 +52,11 @@ export default class App extends React.Component {
   componentWillMount(){
     firebaseSetup;//?
   }
+
+  componentDidMount() {
+    SplashScreen.hide()
+  }
+  
   render() {
     const store=(createStore(reducers, {}, applyMiddleware(ReduxThunk)));
     return(
