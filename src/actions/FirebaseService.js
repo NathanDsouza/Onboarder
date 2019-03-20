@@ -36,8 +36,8 @@ async function addProfile(dispatch, firstName, lastName, username){
         dispatch({type: PROFILE_CREATE});
         const taken =  await checkIfUsernameAvailable(username);
         if (!taken){
-            firebase.database().ref(`/usernames/${username}/${currentUser.uid}`)
-                    .update({username})
+            firebase.database().ref(`/usernames/${username}`)
+                    .update({uid: currentUser.uid})
                     .then(() => {
                         dispatch({type: USERNAME_SET});})
                     .catch((error) => {
