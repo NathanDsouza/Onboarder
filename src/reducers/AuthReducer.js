@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-   
+    console.log("Auth Reducer");
     console.log(action);
     console.log(state);
     switch(action.type){

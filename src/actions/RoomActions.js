@@ -15,7 +15,9 @@ export const createRoom = (stack, blind) =>{
         const blub = getState()
         console.log("getstate gives")
         console.log(blub)
-    addRoom(dispatch, stack, blind)  
+    const roomId = '1234';
+    addRoom(dispatch, stack, blind);
+    joinRoom(dispatch, roomId);
     }
 };
 

@@ -12,10 +12,11 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
    
-    console.log("Room Reducer " + action);
+    console.log("Room Reducer");
+    console.log(action);
     console.log(state);
     switch(action.type){
-        
+    
         case CREATE_ROOM:
             return {...state};
         default:
