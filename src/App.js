@@ -8,10 +8,13 @@ import AuthSelection from './components/AuthSelection';
 import EmailLogin from './components/EmailLogin';
 import Welcome from './components/Welcome';
 import AddFriends from './components/AddFriends';
+import CreateRoom from './components/CreateRoom';
+import JoinRoom from './components/JoinRoom';
 import NavigationService from './actions/NavigationService'
 import Profile from './components/Profile'
 import LandingScreen from './components/LandingScreen'
 import firebaseSetup from './firebase';
+import Room from './components/Room'
 
 
 
@@ -35,9 +38,18 @@ const RootStack = createStackNavigator(
     AddFriends: {
       screen: AddFriends,
     },
+    CreateRoom: {
+      screen: CreateRoom,
+    },
+    JoinRoom: {
+      screen: JoinRoom,
+    },
+    Room: {
+      screen: Room,
+    }
   },
   {
-    initialRouteName: 'LandingScreen',
+    initialRouteName: 'EmailLogin',
     cardStyle: {
       backgroundColor: "#9FAF90",
     }

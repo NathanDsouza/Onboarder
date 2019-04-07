@@ -2,7 +2,7 @@ import firebase from '@firebase/app';
 import  '@firebase/database';
 import  '@firebase/auth';
 import NavigationService from './NavigationService';
-import FirebaseService from './FirebaseService';
+import {addProfile} from './FirebaseService';
 
 
 import {
@@ -39,7 +39,7 @@ export const usernameChanged = (text) =>{
 
 export const profileCreate = (firstName, lastName, username) =>{
     return (dispatch) => {
-    FirebaseService.addProfile(dispatch, firstName, lastName, username)  
+    addProfile(dispatch, firstName, lastName, username)  
     }
 };
 

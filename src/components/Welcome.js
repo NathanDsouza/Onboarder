@@ -14,8 +14,9 @@ class Welcome extends Component{
         this.props.logoutUser();
     }
 
-    addFriendsButtonPress(){
-        NavigationService.navigate('AddFriends');
+    navigateButtonPress(screen){
+        console.log("here " + screen)
+        NavigationService.navigate(screen);
     }
 
     render(){
@@ -29,17 +30,17 @@ class Welcome extends Component{
                         {this.state.username}
                     </Text> */}
                     <CardSection>
-                        <Button onPress={this.addFriendsButtonPress.bind(this)}>  
+                        <Button onPress={this.navigateButtonPress.bind(this, "AddFriends")}>  
                             Add Friends
                         </Button>    
                     </CardSection>
                     <CardSection>
-                        <Button onPress={this.addFriendsButtonPress.bind(this)}>  
+                        <Button onPress={this.navigateButtonPress.bind(this, "CreateRoom")}>  
                             Create Game
                         </Button>    
                     </CardSection>
                     <CardSection>
-                        <Button onPress={this.addFriendsButtonPress.bind(this)}>  
+                        <Button onPress={this.navigateButtonPress.bind(this, "JoinRoom")}>  
                             Join Game
                         </Button>    
                     </CardSection>

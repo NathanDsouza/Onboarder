@@ -1,19 +1,15 @@
 import firebase from '@firebase/app';
 import  '@firebase/database';
-import '@firebase/auth'
+import '@firebase/auth';
 import NavigationService from './NavigationService';
 
-
 import {
-    FIRST_NAME_CHANGED,
-    LAST_NAME_CHANGED,
-    USERNAME_CHANGED,
-    PROFILE_CREATE_SUCCESS,
-    PROFILE_CREATE_FAIL,
+    CREATE_ROOM,
     PROFILE_CREATE,
-    USERNAME_AVAILABLE,
     USERNAME_SET,
-    USERNAME_TAKEN
+    USERNAME_TAKEN,
+    PROFILE_CREATE_SUCCESS,
+    PROFILE_CREATE_FAIL
 } from './types'
 
 function checkIfUsernameAvailable(username){
@@ -30,7 +26,7 @@ function checkIfUsernameAvailable(username){
 
 
 
-async function addProfile(dispatch, firstName, lastName, username){
+export async function addProfile(dispatch, firstName, lastName, username){
         
         const {currentUser} = firebase.auth();
         dispatch({type: PROFILE_CREATE});
@@ -59,11 +55,56 @@ async function addProfile(dispatch, firstName, lastName, username){
             console.log("error is ", error)
             dispatch({type: PROFILE_CREATE_FAIL, payload: error.toString() });
         })
-
-       
-    
-  
 }
-export default {
-    addProfile
-  };
+
+export async function joinRoom(dispatch, roomId){
+    const {currentUser} = firebase.auth();
+    const updateRoom = {};
+    //need to grab room data
+    //need to check if room exists
+    //need to have user object somewhere to access easily
+    updateRoom[currentUser.uid]= {
+        stack: 500,
+    }
+    firebase.database().ref(`/rooms/${roomId}/members`).update(updateRoom)
+    .then(() => {
+        console.log("success")
+        NavigationService.resetNavigation('Room');
+      })
+      .catch((error) => {
+          console.log("fail")
+      })
+}
+
+export async function addRoom(dispatch, stack, blind){
+    
+    roomId = '1234'
+    console.log("oh hi mark ", blind, stack)
+    const {currentUser} = firebase.auth();
+    const updateRoom = {};
+    //updateRoom["1234/members"] = {uid: currentUser.uid}
+    updateRoom[roomId] = {
+        bigBlind: blind,
+        startingStack: stack,
+        host: currentUser.uid,
+    };
+    
+    
+    console.log(updateRoom)
+
+    dispatch({type: CREATE_ROOM});
+
+    firebase.database().ref(`/rooms/`)
+            .update(updateRoom)
+            .then(() => {
+              console.log("success")
+              NavigationService.resetNavigation('Room');
+            })
+            .catch((error) => {
+                console.log("fail")
+            })
+    joinRoom(dispatch, roomId)
+    
+}
+
+
