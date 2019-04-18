@@ -1,5 +1,6 @@
 import {
-   CREATE_ROOM
+   CREATE_ROOM,
+   UPDATE_ROOM,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -19,6 +20,8 @@ export default (state = INITIAL_STATE, action) => {
     
         case CREATE_ROOM:
             return {...state};
+        case UPDATE_ROOM:
+            return {...state, blind: action.bigBlind, stack: action.stack}
         default:
             return state;
     }

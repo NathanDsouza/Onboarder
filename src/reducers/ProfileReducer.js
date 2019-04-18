@@ -47,7 +47,6 @@ export default (state = INITIAL_STATE, action) => {
         firstName: action.firstName,
         lastName: action.lastName,
         username: action.username,
-        email: action.email,
       };
     default:
       return state;

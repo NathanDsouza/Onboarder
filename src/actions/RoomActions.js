@@ -1,47 +1,22 @@
 import firebase from '@firebase/app';
-import  '@firebase/database';
-import  '@firebase/auth';
+import '@firebase/database';
+import '@firebase/auth';
 import NavigationService from './NavigationService';
 import { addRoom, joinRoom } from './FirebaseService';
 
+import { CREATE_ROOM } from './types';
 
-import {
-   CREATE_ROOM,
-} from './types'
-
-
-export const createRoom = (stack, blind) =>{
-    return (dispatch, getState) => {
-        const blub = getState()
-        console.log("getstate gives")
-        console.log(blub)
-    const roomId = '1234';
-    addRoom(dispatch, stack, blind);
-    joinRoom(dispatch, roomId);
-    }
+export const createRoom = (stack, blind) => (dispatch, getState) => {
+  const state = getState();
+  const { profile } = state;
+  const roomId = '1234';
+  addRoom(dispatch, stack, blind);
+  joinRoom(dispatch, roomId, profile, stack);
 };
 
-export const joinGame = (roomId) =>{
-    return (dispatch, getState) => {
-        const blub = getState()
-        console.log("getstate gives")
-        console.log(blub)
-    joinRoom(dispatch, roomId)  
-    }
+export const joinGame = roomId => (dispatch, getState) => {
+  const state = getState();
+  const { profile, room } = state;
+  const { stack } = room;
+  joinRoom(dispatch, roomId, profile, stack);
 };
-
-const profileCreateSuccess = (dispatch, user) => {
-    dispatch({
-        type: PROFILE_CREATE_SUCCESS,
-        payload: user
-    });
-    NavigationService.navigate('Welcome');
-};
-
-const profileCreateFail = (dispatch, error) => {
-    dispatch({
-        type: PROFILE_CREATE_FAIL,
-        payload: error.toString()
-    });
-};
-
