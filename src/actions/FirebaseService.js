@@ -1,7 +1,7 @@
-import firebase from '@firebase/app';
-import '@firebase/database';
-import '@firebase/auth';
-import NavigationService from './NavigationService';
+import firebase from "@firebase/app";
+import "@firebase/database";
+import "@firebase/auth";
+import NavigationService from "./NavigationService";
 
 import {
   CREATE_ROOM,
@@ -11,13 +11,15 @@ import {
   PROFILE_CREATE_SUCCESS,
   PROFILE_CREATE_FAIL,
   UPDATE_PROFILE,
-} from './types';
+  JOIN_ROOM,
+  UPDATE_ROOM
+} from "./types";
 
 function checkIfUsernameAvailable(username) {
   const usernameLower = username.toLowerCase();
   const usernamePath = `/usernames/${usernameLower}`;
   const ref = firebase.database().ref(usernamePath);
-  const snapshot = ref.once('value').then(snapshot => {
+  const snapshot = ref.once("value").then(snapshot => {
     return snapshot.exists();
   });
 
@@ -40,7 +42,7 @@ export async function addProfile(dispatch, firstName, lastName, username) {
         console.log(error);
       });
   } else {
-    dispatch({ type: USERNAME_TAKEN, payload: 'Username taken' });
+    dispatch({ type: USERNAME_TAKEN, payload: "Username taken" });
     return;
   }
 
@@ -50,45 +52,62 @@ export async function addProfile(dispatch, firstName, lastName, username) {
     .update({ firstName, lastName, username })
     .then(() => {
       dispatch({ type: PROFILE_CREATE_SUCCESS, firstName, lastName, username });
-      NavigationService.resetNavigation('Welcome');
+      NavigationService.resetNavigation("Welcome");
     })
     .catch(error => {
-      console.log('error is ', error);
+      console.log("error is ", error);
       dispatch({ type: PROFILE_CREATE_FAIL, payload: error.toString() });
     });
 }
 
-export function joinRoom(dispatch, roomId, profile, stack) {
-  const { email, username, firstName, lastName } = profile;
-  const { currentUser } = firebase.auth();
-  const updateRoom = {};
-  //need to grab room data
-  //need to check if room exists
-  updateRoom[currentUser.uid] = {
-    stack: stack,
-    firstName: firstName,
-    username: username,
-  };
-  firebase
+function grabRoomData(roomId) {
+  return firebase
     .database()
-    .ref(`/rooms/${roomId}/members`)
-    .update(updateRoom)
-    .then(() => {
-      console.log('success');
-      NavigationService.resetNavigation('Room');
-    })
-    .catch(error => {
-      console.log('fail');
+    .ref(`/rooms/${roomId}`)
+    .once("value")
+    .then(function(snapshot) {
+      return snapshot.val();
     });
+}
+
+export async function joinRoom(dispatch, roomId, profile) {
+  const { username, firstName } = profile;
+  const val = await grabRoomData(roomId);
+  if (val) {
+    const { startingStack, bigBlind, pot } = val;
+    const { currentUser } = firebase.auth();
+
+    const updateRoom = {};
+    updateRoom[currentUser.uid] = {
+      stack: startingStack,
+      firstName: firstName,
+      username: username,
+      bigBlind: bigBlind,
+    };
+    firebase
+      .database()
+      .ref(`/rooms/${roomId}/members`)
+      .update(updateRoom)
+      .then(() => {
+        console.log("success");
+        dispatch({ type: JOIN_ROOM, roomId, startingStack, bigBlind, pot });
+        NavigationService.resetNavigation("Room");
+      })
+      .catch(error => {
+        console.log("fail");
+      });
+  } else {
+    console.log("room don't exist"); // deal w this
+  }
 }
 
 export function getUserData() {
   const { currentUser } = firebase.auth();
-  console.log('before');
+  console.log("before");
   return firebase
     .database()
     .ref(`/users/${currentUser.uid}`)
-    .once('value')
+    .once("value")
     .then(function(snapshot) {
       return snapshot.val();
     });
@@ -102,41 +121,41 @@ export async function setUserData(dispatch) {
     username,
     firstName,
     lastName,
-    email,
+    email
   });
 }
 
 export async function addRoom(dispatch, stack, blind) {
-  const roomId = '1234';
-  console.log('oh hi mark ', blind, stack);
+  const roomId = "1234";
   const { currentUser } = firebase.auth();
+  const pot = 0;
   const updateRoom = {};
   updateRoom[roomId] = {
     bigBlind: blind,
     startingStack: stack,
-    host: currentUser.uid
+    host: currentUser.uid,
+    pot: pot,
   };
 
   console.log(updateRoom);
 
-  dispatch({ type: CREATE_ROOM });
+  dispatch({ type: CREATE_ROOM, pot });
 
   firebase
     .database()
-    .ref('/rooms/')
+    .ref("/rooms/")
     .update(updateRoom)
     .then(() => {
-      console.log('success');
+      console.log("success");
     })
     .catch(error => {
-      console.log('fail');
+      console.log("fail");
     });
 }
 
 function checkIfRoomExists(roomId) {
   const ref = firebase.database().ref(`/rooms/${roomId}`);
-  const snapshot = ref.once('value').then(snapshot => {
-
+  const snapshot = ref.once("value").then(snapshot => {
     return snapshot.val();
   });
 
@@ -146,14 +165,34 @@ function checkIfRoomExists(roomId) {
 export async function validateRoom(dispatch, roomId) {
   const snapshot = await checkIfRoomExists(roomId);
   if (snapshot) {
-    const {stack, bigBlind} = snapshot;
-   dispatch({
-  type: UPDATE_ROOM, stack, bigBlind
-  });
-
+    const { stack, bigBlind } = snapshot;
+    dispatch({
+      type: UPDATE_ROOM,
+      stack,
+      bigBlind
+    });
   } else {
-   // dispatch({ type: USERNAME_TAKEN, payload: "Username taken" });
     return;
   }
+}
 
+function asyncRoomListener(dispatch, roomId) {
+  firebase
+    .database()
+    .ref(`/rooms/${roomId}`)
+    .once("value", function(dataSnapshot) {
+      console.log("in async call");
+      const val = dataSnapshot.val();
+      //dispatch({ type: UPDATE_ROOM, val });
+      //console.log(dataSnapshot.val())
+      return dataSnapshot.val();
+    });
+}
+
+export async function fbStartRoomListener(dispatch, roomId) {
+  console.log("room id is " + roomId);
+  const val = await asyncRoomListener(dispatch, roomId);
+  console.log(val);
+  dispatch({type: "blub"});
+  console.log("done");
 }
