@@ -10,6 +10,7 @@ class Loading extends Component{
     constructor(props) {
         super(props);
         this.state = { screen: 'AuthSelection' };
+        this.unsubscribe = null
     }
 
     componentDidMount(){

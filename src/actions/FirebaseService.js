@@ -1,7 +1,7 @@
-import firebase from "@firebase/app";
-import "@firebase/database";
-import "@firebase/auth";
-import NavigationService from "./NavigationService";
+import firebase from '@firebase/app';
+import '@firebase/database';
+import '@firebase/auth';
+import NavigationService from './NavigationService';
 
 import {
   CREATE_ROOM,
@@ -13,13 +13,13 @@ import {
   UPDATE_PROFILE,
   JOIN_ROOM,
   UPDATE_ROOM
-} from "./types";
+} from './types';
 
 function checkIfUsernameAvailable(username) {
   const usernameLower = username.toLowerCase();
   const usernamePath = `/usernames/${usernameLower}`;
   const ref = firebase.database().ref(usernamePath);
-  const snapshot = ref.once("value").then(snapshot => {
+  const snapshot = ref.once('value').then(snapshot => {
     return snapshot.exists();
   });
 
@@ -42,7 +42,7 @@ export async function addProfile(dispatch, firstName, lastName, username) {
         console.log(error);
       });
   } else {
-    dispatch({ type: USERNAME_TAKEN, payload: "Username taken" });
+    dispatch({ type: USERNAME_TAKEN, payload: 'Username taken' });
     return;
   }
 
@@ -52,10 +52,10 @@ export async function addProfile(dispatch, firstName, lastName, username) {
     .update({ firstName, lastName, username })
     .then(() => {
       dispatch({ type: PROFILE_CREATE_SUCCESS, firstName, lastName, username });
-      NavigationService.resetNavigation("Welcome");
+      NavigationService.resetNavigation('Welcome');
     })
     .catch(error => {
-      console.log("error is ", error);
+      console.log('error is ', error);
       dispatch({ type: PROFILE_CREATE_FAIL, payload: error.toString() });
     });
 }
@@ -64,7 +64,7 @@ function grabRoomData(roomId) {
   return firebase
     .database()
     .ref(`/rooms/${roomId}`)
-    .once("value")
+    .once('value')
     .then(function(snapshot) {
       return snapshot.val();
     });
@@ -89,12 +89,12 @@ export async function joinRoom(dispatch, roomId, profile) {
       .ref(`/rooms/${roomId}/members`)
       .update(updateRoom)
       .then(() => {
-        console.log("success");
+        console.log('success');
         dispatch({ type: JOIN_ROOM, roomId, startingStack, bigBlind, pot });
-        NavigationService.resetNavigation("Room");
+        NavigationService.resetNavigation('Room');
       })
       .catch(error => {
-        console.log("fail");
+        console.log('fail');
       });
   } else {
     console.log("room don't exist"); // deal w this
@@ -103,11 +103,11 @@ export async function joinRoom(dispatch, roomId, profile) {
 
 export function getUserData() {
   const { currentUser } = firebase.auth();
-  console.log("before");
+  console.log('before');
   return firebase
     .database()
     .ref(`/users/${currentUser.uid}`)
-    .once("value")
+    .once('value')
     .then(function(snapshot) {
       return snapshot.val();
     });
@@ -126,7 +126,7 @@ export async function setUserData(dispatch) {
 }
 
 export async function addRoom(dispatch, stack, blind) {
-  const roomId = "1234";
+  const roomId = '1234';
   const { currentUser } = firebase.auth();
   const pot = 0;
   const updateRoom = {};
@@ -143,19 +143,19 @@ export async function addRoom(dispatch, stack, blind) {
 
   firebase
     .database()
-    .ref("/rooms/")
+    .ref('/rooms/')
     .update(updateRoom)
     .then(() => {
-      console.log("success");
+      console.log('success');
     })
     .catch(error => {
-      console.log("fail");
+      console.log('fail');
     });
 }
 
 function checkIfRoomExists(roomId) {
   const ref = firebase.database().ref(`/rooms/${roomId}`);
-  const snapshot = ref.once("value").then(snapshot => {
+  const snapshot = ref.once('value').then(snapshot => {
     return snapshot.val();
   });
 
@@ -180,19 +180,16 @@ function asyncRoomListener(dispatch, roomId) {
   firebase
     .database()
     .ref(`/rooms/${roomId}`)
-    .once("value", function(dataSnapshot) {
-      console.log("in async call");
+    .on('value', function(dataSnapshot) {
+      console.log('in async call');
       const val = dataSnapshot.val();
-      //dispatch({ type: UPDATE_ROOM, val });
-      //console.log(dataSnapshot.val())
+      dispatch({ type: UPDATE_ROOM, ...val });
       return dataSnapshot.val();
     });
 }
 
 export async function fbStartRoomListener(dispatch, roomId) {
-  console.log("room id is " + roomId);
+  console.log('room id is ' + roomId);
   const val = await asyncRoomListener(dispatch, roomId);
-  console.log(val);
-  dispatch({type: "blub"});
-  console.log("done");
+  console.log('return from func');
 }

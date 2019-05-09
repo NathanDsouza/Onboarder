@@ -49,7 +49,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'EmailLogin',
+    initialRouteName: 'LandingScreen',
     cardStyle: {
       backgroundColor: "#9FAF90",
     }
