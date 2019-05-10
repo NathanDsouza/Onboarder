@@ -15,6 +15,7 @@ import Profile from './components/Profile'
 import LandingScreen from './components/LandingScreen'
 import firebaseSetup from './firebase';
 import Room from './components/Room'
+import SplashScreen from 'react-native-splash-screen';
 
 
 
@@ -62,6 +63,10 @@ const AppContainer = createAppContainer(RootStack);
 export default class App extends React.Component {
   componentWillMount(){
     firebaseSetup;//?
+  }
+
+  componentDidMount(){
+    SplashScreen.hide()
   }
   render() {
     const store=(createStore(reducers, {}, applyMiddleware(ReduxThunk)));

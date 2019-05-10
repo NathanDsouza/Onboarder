@@ -7,10 +7,11 @@ import { addRoom, joinRoom, fbStartRoomListener, fbBet, fbWin } from './Firebase
 import { CREATE_ROOM } from './types';
 
 export const createRoom = (stack, blind) => (dispatch, getState) => {
-  const state = getState();
-  const { profile } = state;
-  const roomId = '1234';
+  
   addRoom(dispatch, stack, blind);
+  const state = getState();
+  const { profile, room } = state;
+  const { roomId } = room;
   joinRoom(dispatch, roomId, profile);
 };
 

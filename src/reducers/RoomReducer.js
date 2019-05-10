@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
   console.log(state);
   switch (action.type) {
     case CREATE_ROOM:
-      return { ...state, pot: action.pot };
+      return { ...state, pot: action.pot, roomId: action.roomId };
     case JOIN_ROOM:
       return {
         ...state,

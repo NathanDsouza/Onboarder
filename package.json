@@ -11,10 +11,12 @@
     "react": "16.6.3",
     "react-native": "0.58.6",
     "react-native-gesture-handler": "^1.0.17",
+    "react-native-splash-screen": "^3.2.0",
     "react-navigation": "^3.3.2",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "shortid": "^2.2.14"
   },
   "devDependencies": {
     "babel-core": "7.0.0-bridge.0",
