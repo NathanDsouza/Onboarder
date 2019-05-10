@@ -76,13 +76,14 @@ export async function joinRoom(dispatch, roomId, profile) {
   if (val) {
     const { startingStack, bigBlind, pot } = val;
     const { currentUser } = firebase.auth();
+    const { uid } = currentUser;
 
     const updateRoom = {};
-    updateRoom[currentUser.uid] = {
+    updateRoom[uid] = {
       stack: startingStack,
       firstName: firstName,
       username: username,
-      bigBlind: bigBlind,
+      bigBlind: bigBlind
     };
     firebase
       .database()
@@ -90,7 +91,7 @@ export async function joinRoom(dispatch, roomId, profile) {
       .update(updateRoom)
       .then(() => {
         console.log('success');
-        dispatch({ type: JOIN_ROOM, roomId, startingStack, bigBlind, pot });
+        dispatch({ type: JOIN_ROOM, roomId, startingStack, bigBlind, pot, uid });
         NavigationService.resetNavigation('Room');
       })
       .catch(error => {
@@ -192,4 +193,42 @@ export async function fbStartRoomListener(dispatch, roomId) {
   console.log('room id is ' + roomId);
   const val = await asyncRoomListener(dispatch, roomId);
   console.log('return from func');
+}
+
+export async function fbBet(dispatch, roomId, bet) {
+  console.log('bet fb');
+  const { currentUser } = firebase.auth();
+  const { uid } = currentUser;
+
+  const val = await grabRoomData(roomId);
+  if (val) {
+    const { pot, members } = val;
+    const { stack } = members[uid];
+    console.log('stack is ' + stack)
+    const newPot = parseInt(pot, 10) + parseInt(bet, 10);
+    const newStack = parseInt(stack, 10) - parseInt(bet, 10);
+    console.log('newStack is  ' + newStack)
+
+    firebase
+      .database()
+      .ref(`/rooms/${roomId}`)
+      .update({ pot: newPot })
+      .then(() => {
+        console.log('increased pot');
+      })
+      .catch(error => {
+        console.log('failed to bet');
+      });
+
+    firebase
+      .database()
+      .ref(`/rooms/${roomId}/members/${uid}`)
+      .update({ stack: newStack })
+      .then(() => {
+        console.log('decreased stack');
+      })
+      .catch(error => {
+        console.log('failed to decrease stack');
+      });
+  }
 }

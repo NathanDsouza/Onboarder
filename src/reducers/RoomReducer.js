@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   roomId: '',
   pot: '',
   dealer: '',
-  members: null
+  members: null,
+  uid: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,9 +27,10 @@ export default (state = INITIAL_STATE, action) => {
         blind: action.bigBlind,
         stack: action.startingStack,
         pot: action.pot,
+        uid: action.uid,
       };
     case UPDATE_ROOM:
-      return { ...state, pot: action.pot, members: action.members };
+      return { ...state, pot: action.pot, members: action.members, stack: action.members[state.uid].stack };
     default:
       return state;
   }
