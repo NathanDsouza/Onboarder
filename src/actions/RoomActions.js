@@ -2,7 +2,7 @@ import firebase from '@firebase/app';
 import '@firebase/database';
 import '@firebase/auth';
 import NavigationService from './NavigationService';
-import { addRoom, joinRoom, fbStartRoomListener, fbBet } from './FirebaseService';
+import { addRoom, joinRoom, fbStartRoomListener, fbBet, fbWin } from './FirebaseService';
 
 import { CREATE_ROOM } from './types';
 
@@ -34,3 +34,10 @@ export const bet = betSize => (dispatch, getState) => {
   const { roomId } = room;
   fbBet(dispatch, roomId, betSize);
 };
+
+export const win = () => (dispatch, getState) => {
+  const state = getState();
+  const { room } = state;
+  const { roomId } = room;
+  fbWin(dispatch, roomId);
+}

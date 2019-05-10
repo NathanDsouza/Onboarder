@@ -232,3 +232,40 @@ export async function fbBet(dispatch, roomId, bet) {
       });
   }
 }
+
+export async function fbWin(dispatch, roomId) {
+  console.log('win fb');
+  const { currentUser } = firebase.auth();
+  const { uid } = currentUser;
+
+  const val = await grabRoomData(roomId);
+  if (val) {
+    const { pot, members } = val;
+    const { stack } = members[uid];
+    console.log('stack is ' + stack)
+    const newStack = parseInt(pot, 10) + parseInt(stack, 10);
+    console.log('newStack is  ' + newStack)
+
+    firebase
+      .database()
+      .ref(`/rooms/${roomId}`)
+      .update({ pot: 0 })
+      .then(() => {
+        console.log('reset pot');
+      })
+      .catch(error => {
+        console.log('failed to reset pot');
+      });
+
+    firebase
+      .database()
+      .ref(`/rooms/${roomId}/members/${uid}`)
+      .update({ stack: newStack })
+      .then(() => {
+        console.log('added pot to stack');
+      })
+      .catch(error => {
+        console.log('failed to add pot to stack');
+      });
+  }
+}
