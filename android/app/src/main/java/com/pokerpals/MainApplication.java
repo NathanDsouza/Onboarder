@@ -1,4 +1,4 @@
-package com.onboarder;
+package com.pokerpals;
 
 import android.app.Application;
 
